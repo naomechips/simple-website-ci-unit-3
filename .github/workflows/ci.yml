@@ -1,29 +1,29 @@
-name: Simple Website CI
+name: CI
 
+# Triggers: run on push or pull request to main branch
 on:
   push:
     branches:
       - main
-    paths:
-      - "**.html"
-      - "**.css"
+  pull_request:
+    branches:
+      - main
 
 jobs:
   validate:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get repository files
-        uses: actions/checkout@v4
+      # Step 1: Checkout your repo
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Install HTML Tidy
-        run: sudo apt-get install -y tidy
+      # Step 2: Validate HTML
+      - name: Validate HTML
+        uses: amitsingh-007/html-validator-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check HTML
-        run: tidy -e index.html
-
-      - name: Install CSSLint
-        run: sudo npm install -g csslint
-
-      - name: Check CSS
-        run: csslint style.css
+      # Step 3: Validate CSS
+      - name: Validate CSS
+        uses: open-wc/action-css-validator@v1
