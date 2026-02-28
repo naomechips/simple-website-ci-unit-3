@@ -1,1 +1,29 @@
+name: Simple Website CI
 
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**.html"
+      - "**.css"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get repository files
+        uses: actions/checkout@v4
+
+      - name: Install HTML Tidy
+        run: sudo apt-get install -y tidy
+
+      - name: Check HTML
+        run: tidy -e index.html
+
+      - name: Install CSSLint
+        run: sudo npm install -g csslint
+
+      - name: Check CSS
+        run: csslint style.css
