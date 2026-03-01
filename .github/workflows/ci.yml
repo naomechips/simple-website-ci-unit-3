@@ -27,3 +27,19 @@ jobs:
       # Step 3: Validate CSS
       - name: Validate CSS
         uses: open-wc/action-css-validator@v1
+
+name: HTML Linter
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: HTML Hint
+        uses: htmlhint/htmlhint-action@v2
+        with:
+          rules-conf: '{"tagname-lowercase": true, "attr-lowercase": true, "spec-char-escape": true}'
